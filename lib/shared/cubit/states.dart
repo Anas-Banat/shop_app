@@ -1,19 +1,43 @@
-abstract class AppStates {}
+abstract class NewsStates {}
 
-class AppInitialState extends AppStates {}
+class NewsInitialState extends NewsStates {}
 
-class AppChangeBottomNavBarState extends AppStates {}
+class NewsBottomNavState extends NewsStates {}
 
-class AppCreateDatabaseState extends AppStates {}
+class newsGetBusinessLoadingState extends NewsStates {}
 
-class AppGetDatabaseState extends AppStates {}
+class newsGetBusinessSuccessState extends NewsStates {}
 
-class AppGetDatabaseLoadingState extends AppStates {}
+class newsGetBusinessErrorState extends NewsStates {
+  final String error;
+  newsGetBusinessErrorState(this.error);
+}
 
-class AppInsertDatabaseState extends AppStates {}
+class newsGetSportLoadingState extends NewsStates {}
 
-class AppUpdateDatabaseState extends AppStates {}
+class newsGetSportSuccessState extends NewsStates {}
 
-class AppDeleteDatabaseState extends AppStates {}
+class newsGetSportErrorState extends NewsStates {
+  final String error;
+  newsGetSportErrorState(this.error);
+}
 
-class AppChangeBottomSheetState extends AppStates {}
+class newsGetScienceLoadingState extends NewsStates {}
+
+class newsGetScienceSuccessState extends NewsStates {}
+
+class newsGetScienceErrorState extends NewsStates {
+  final String error;
+  newsGetScienceErrorState(this.error);
+}
+
+class newsChangeModeState extends NewsStates {}
+
+class newsGetSearchLoadingState extends NewsStates {}
+
+class newsGetSearchSuccessState extends NewsStates {}
+
+class newsGetSearchErrorState extends NewsStates {
+  final String error;
+  newsGetSearchErrorState(this.error);
+}

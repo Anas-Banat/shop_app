@@ -19,8 +19,8 @@ class DioHelper {
     return await dio.get(url,
         queryParameters: query,
         options: Options(
-          sendTimeout: 10,
-          receiveTimeout: 10,
+          sendTimeout: Duration(seconds: 10),
+          receiveTimeout: Duration(seconds: 10),
         ));
   }
 }

@@ -1,143 +1,166 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:todo_app/modules/todo_app/archive_tasks/archive_tasks_screen.dart';
-import 'package:todo_app/modules/todo_app/done_tasks/done_tasks_screen.dart';
-import 'package:todo_app/modules/todo_app/new_tasks/new_tasks_screen.dart';
-import 'package:todo_app/shared/cubit/states.dart';
+import 'package:todo_app/layout/news_app/cubit/states.dart';
+import 'package:todo_app/modules/news_app/business/business_screen.dart';
+import 'package:todo_app/modules/news_app/science/science_screen.dart';
+import 'package:todo_app/modules/shop_app/settings_screen/settings_screen.dart';
+import 'package:todo_app/modules/news_app/sports/sport_screen.dart';
+import 'package:todo_app/shared/network/local/cache_helper.dart';
+import 'package:todo_app/shared/network/remote/dio_helper.dart';
 
-class AppCubit extends Cubit<AppStates> {
-  AppCubit() : super(AppInitialState());
+class NewsCubit extends Cubit<NewsStates> {
+  NewsCubit() : super(NewsInitialState());
 
-  static AppCubit get(context) => BlocProvider.of(context);
+  static NewsCubit get(context) => BlocProvider.of(context);
 
-  int currentIndex = 0;
+  int correntIndex = 0;
 
-  List<String> titles = ['New Tasks', 'Done Tasks', 'Archive Tasks'];
-
-  List<Widget> screens = [
-    NewTasksScreen(),
-    DoneTasksScreen(),
-    ArchivedTasksScreen(),
+  List<BottomNavigationBarItem> bottomItems = [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.business),
+      label: 'Business',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.sports),
+      label: 'Sports',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.science),
+      label: 'Science',
+    ),
   ];
 
-  void changeIndex(int index) {
-    currentIndex = index;
-    emit(AppChangeBottomNavBarState());
+  List<Widget> screens = [
+    BusinessScreen(),
+    SportScreen(),
+    ScienceScreen(),
+    SettingsScreen(),
+  ];
+
+  void changeBottomBar(int index) {
+    correntIndex = index;
+    if (index == 1) getSports();
+    if (index == 2) getScience();
+    emit(NewsBottomNavState());
   }
 
-  late Database database;
-  List<Map> newTasks = [];
-  List<Map> doneTasks = [];
-  List<Map> archivedTasks = [];
+  List<dynamic> business = [];
 
-  void createDatabase() {
-    openDatabase(
-      'todo.db', // Name of db
-      version: 1,
-      onCreate: (database, version) {
-        // id integer
-        // title String
-        // date String
-        // time String
-        // status String
+  void getBusiness() {
+    emit(newsGetBusinessLoadingState());
 
-        print('database created');
-        database
-            .execute(
-                'CREATE TABLE Tasks (id INTEGER PRIMARY KEY, title TEXT, date TEXT, time TEXT, status TEXT)')
-            .then((value) {
-          print('Table Created');
-        }).catchError((e) {
-          print('Error when creating table ${e.toString()}');
-        });
-      },
-      onOpen: (database) {
-        getDataFromDatabase(database);
-        print('Database Opened');
+    DioHelper.getData(
+      url: 'v2/top-headlines',
+      query: {
+        'country': 'eg',
+        'category': 'business',
+        'apiKey': '65f7f556ec76449fa7dc7c0069f040ca',
       },
     ).then((value) {
-      database = value;
-      emit(AppCreateDatabaseState());
+      //print(value.data['articales'][0]['title']);
+      business = value.data['articales'];
+      print(business.length);
+      print(business[0]['title']);
+
+      emit(newsGetBusinessSuccessState());
+    }).catchError((err) {
+      print(err.toString());
+      emit(newsGetBusinessErrorState(err.toString()));
     });
   }
 
-  insertToDatabase({
-    required String title,
-    required String time,
-    required String date,
-  }) async {
-    await database.transaction((txn) async {
-      txn
-          .rawInsert(
-        'INSERT INTO tasks (title, time, date, status) VALUES ("$title","$time","$date","new task")',
-      )
-          .then((value) {
-        print('$value inserted successfully');
-        emit(AppInsertDatabaseState());
+  List<dynamic> sports = [];
 
-        // To get Database after insert data
-        getDataFromDatabase(database);
-      }).catchError((e) {
-        print('Error when creating new row ${e.toString()}');
+  void getSports() {
+    emit(newsGetSportLoadingState());
+
+    if (sports.length == 0) {
+      DioHelper.getData(
+        url: 'v2/top-headlines',
+        query: {
+          'country': 'eg',
+          'category': 'sports',
+          'apiKey': '65f7f556ec76449fa7dc7c0069f040ca',
+        },
+      ).then((value) {
+        //print(value.data['articales'][0]['title']);
+        sports = value.data['articales'];
+        print(sports.length);
+        print(sports[0]['title']);
+
+        emit(newsGetSportSuccessState());
+      }).catchError((err) {
+        print(err.toString());
+        emit(newsGetSportErrorState(err.toString()));
       });
-    });
+    } else {
+      emit(newsGetSportSuccessState());
+    }
   }
 
-  void getDataFromDatabase(database) {
-    // To Clear a screen from old data
-    newTasks = [];
-    doneTasks = [];
-    archivedTasks = [];
+  List<dynamic> science = [];
 
-    emit(AppGetDatabaseLoadingState());
-    database.rawQuery('SELECT * FROM tasks').then((value) {
-      value.forEach((element) {
-        if (element['status'] == 'new') {
-          newTasks.add(element);
-        } else if (element['status'] == 'done') {
-          doneTasks.add(element);
-        } else {
-          archivedTasks.add(element);
-        }
+  void getScience() {
+    emit(newsGetScienceLoadingState());
+
+    if (science.length == 0) {
+      DioHelper.getData(
+        url: 'v2/top-headlines',
+        query: {
+          'country': 'eg',
+          'category': 'science',
+          'apiKey': '65f7f556ec76449fa7dc7c0069f040ca',
+        },
+      ).then((value) {
+        //print(value.data['articales'][0]['title']);
+        science = value.data['articales'];
+        print(science.length);
+        print(science[0]['title']);
+
+        emit(newsGetScienceSuccessState());
+      }).catchError((err) {
+        print(err.toString());
+        emit(newsGetScienceErrorState(err.toString()));
       });
-      emit(AppGetDatabaseState());
-    }).catchError((e) {
-      print('Error when get data ${e.toString()}');
-    });
+    } else {
+      emit(newsGetScienceSuccessState());
+    }
   }
 
-  void updateData({
-    required String status,
-    required int id,
-  }) async {
-    database.rawUpdate(
-      'UPDATE tasks SET status = ? WHERE id = ?',
-      ['$status', '$id'],
+  bool isDark = false;
+  void changeAppMode({bool? formShared}) {
+    if (formShared != null) {
+      isDark = formShared;
+      emit(newsChangeModeState());
+    } else {
+      isDark = !isDark;
+      CacheHelper.putData(key: 'isDark', value: isDark).then((value) {
+        emit(newsChangeModeState());
+      });
+    }
+  }
+
+  List<dynamic> search = [];
+
+  void getSearch(String value) {
+    emit(newsGetSearchLoadingState());
+    DioHelper.getData(
+      url: 'v2/everything',
+      query: {
+        'q': '$value',
+        'apiKey': '65f7f556ec76449fa7dc7c0069f040ca',
+      },
     ).then((value) {
-      getDataFromDatabase(database);
-      emit(AppUpdateDatabaseState());
-    });
-  }
+      //print(value.data['articales'][0]['title']);
+      science = value.data['articales'];
+      print(science.length);
+      print(science[0]['title']);
 
-  void deleteData({
-    required int id,
-  }) async {
-    database.rawDelete(
-      'DELETE FROM tasks WHERE id = ?',
-      [id],
-    ).then((value) {
-      getDataFromDatabase(database);
-      emit(AppDeleteDatabaseState());
+      emit(newsGetSearchSuccessState());
+    }).catchError((err) {
+      print(err.toString());
+      emit(newsGetSearchErrorState(err.toString()));
     });
-  }
-
-  bool isBootomSheetShown = false;
-  IconData fabIcon = Icons.edit;
-  void changeBottomSheetState({required IconData icon, required bool isShow}) {
-    isBootomSheetShown = isShow;
-    fabIcon = icon;
-    emit(AppChangeBottomSheetState());
   }
 }
