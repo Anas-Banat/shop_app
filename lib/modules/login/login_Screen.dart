@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/shared/components/components.dart';
+import 'package:shop_app/shared/components/components.dart';
 
 // Reusable Components
 // 1. Save time

@@ -8,6 +8,8 @@ import 'package:shop_app/shared/bloc_observer.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
 import 'package:shop_app/shared/styles/themes.dart';
+import 'package:shop_app/shared/cubit/cubit.dart';
+import 'package:shop_app/shared/cubit/states.dart';
 
 void main() async {
   WidgetsFlutterBinding
@@ -31,12 +33,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => NewsCubit()
-            ..getBusiness()
-            ..getSports()
-            ..getScience(),
-        ),
         BlocProvider(
           create: (context) => NewsCubit()
             ..changeAppMode(
