@@ -18,8 +18,7 @@ class OnBoardingScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 40.0,
-            ),
+              height: 40.0,),
             Row(
               children: [
                 Text(
