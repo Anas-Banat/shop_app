@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: 'login',
                     radius: 10.0,
                     function: () {
-                      if (formKey.currentState!.validate()) {
+                      if (formKey.currentState.validate()) {
                         print(emailController.text);
                         print(passwordController.text);
                       }

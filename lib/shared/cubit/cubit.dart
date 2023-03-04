@@ -6,20 +6,20 @@ import 'package:shop_app/modules/shop_app/settings_screen/settings_screen.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
 
-class NewsCubit extends Cubit<NewsStates> {
-  NewsCubit() : super(NewsInitialState());
+class ShopCubit extends Cubit<ShopStates> {
+  ShopCubit() : super(ShopInitialState());
 
-  static NewsCubit get(context) => BlocProvider.of(context);
+  static ShopCubit get(context) => BlocProvider.of(context);
 
   bool isDark = false;
-  void changeAppMode({bool? formShared}) {
+  void changeAppMode({bool formShared}) {
     if (formShared != null) {
       isDark = formShared;
-      emit(newsChangeModeState());
+      emit(ShopChangeModeState());
     } else {
       isDark = !isDark;
       CacheHelper.putData(key: 'isDark', value: isDark).then((value) {
-        emit(newsChangeModeState());
+        emit(ShopChangeModeState());
       });
     }
   }

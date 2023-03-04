@@ -6,11 +6,11 @@ import 'package:shop_app/shared/cubit/states.dart';
 Widget defaultButton({
   double width = double.infinity,
   Color background = Colors.blue,
-  required String text,
+  String text,
   bool isUpperCase = true,
   double radius = 0.0,
   // Used VoidCallback to call the functoin
-  required GestureTapCallback function,
+  GestureTapCallback function,
 }) =>
     Container(
       width: width,
@@ -33,32 +33,32 @@ Widget defaultButton({
     );
 
 Widget defaultFormField({
-  required TextEditingController controller,
-  required TextInputType type,
-  Function? onSubmit,
-  Function? onChange,
-  Function? onTap,
-  Function? validate,
-  required String lable,
+   TextEditingController controller,
+   TextInputType type,
+  Function onSubmit,
+  Function onChange,
+  Function onTap,
+  Function validate,
+  String lable,
   bool isPassword = false,
   bool isClickable = true,
-  required IconData prefix,
-  IconData? suffix,
-  Function()? suffixPressed,
+  IconData prefix,
+  IconData suffix,
+  Function() suffixPressed,
 }) =>
     TextFormField(
       controller: controller,
       onFieldSubmitted: (value) {
-        onSubmit!(value);
+        onSubmit(value);
       },
       onChanged: (value) {
-        onChange!(value);
+        onChange(value);
       },
       onTap: () {
-        onTap!();
+        onTap();
       },
       validator: (value) {
-        validate!(value);
+        validate(value);
       },
       enabled: isClickable,
       keyboardType: type,
@@ -73,7 +73,7 @@ Widget defaultFormField({
                   suffix,
                 ),
                 onPressed: () {
-                  suffixPressed!();
+                  suffixPressed();
                 },
               )
             : null,

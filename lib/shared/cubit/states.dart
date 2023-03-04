@@ -1,7 +1,7 @@
-abstract class NewsStates {}
+abstract class ShopStates {}
 
-class NewsInitialState extends NewsStates {}
+class ShopInitialState extends ShopStates {}
 
-class NewsBottomNavState extends NewsStates {}
+class ShopBottomNavState extends ShopStates {}
 
-class newsChangeModeState extends NewsStates {}
+class ShopChangeModeState extends ShopStates {}

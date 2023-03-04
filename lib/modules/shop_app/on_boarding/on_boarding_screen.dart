@@ -1,6 +1,37 @@
 import 'package:flutter/material.dart';
 
+class BoardingModel {
+  final String image;
+  final String title;
+  final String body;
+
+  BoardingModel({
+    this.image,
+    this.title,
+    this.body,
+  });
+}
+
 class OnBoardingScreen extends StatelessWidget {
+
+List<BoardingModel> boarding = [
+  BoardingModel(
+    image: 'assets/images/onBiard1.jpg',
+    title: 'On Board 1 Title',
+    body: 'On Board 1 Body',
+  ),
+  BoardingModel(
+    image: 'assets/images/onBiard1.jpg',
+    title: 'On Board 2 Title',
+    body: 'On Board 2 Body',
+  ),
+  BoardingModel(
+    image: 'assets/images/onBiard1.jpg',
+    title: 'On Board 3 Title',
+    body: 'On Board 3 Body',
+  ),
+];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -8,13 +39,13 @@ class OnBoardingScreen extends StatelessWidget {
         title: Text('OnBoard'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
             Expanded(
               child: PageView.builder(
-                itemBuilder: (context, index) => buildBoardingItem(),
-                itemCount: 3,
+                itemBuilder: (context, index) => buildBoardingItem(boarding[index]),
+                itemCount: boarding.length,
               ),
             ),
             SizedBox(
@@ -24,6 +55,9 @@ class OnBoardingScreen extends StatelessWidget {
                 Text(
                   'Indicator',
                 ),
+                Spacer(),
+                FloatingActionButton(onPressed: (){},
+                child: Icon(Icons.arrow_forward_ios),)
               ],
             ),
           ],
@@ -32,19 +66,16 @@ class OnBoardingScreen extends StatelessWidget {
     );
   }
 
-  Widget buildBoardingItem() => Column(
+  Widget buildBoardingItem(BoardingModel model) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Image(
-              image: AssetImage('assets/images/onBiard1.jpg'),
+              image: AssetImage('${model.image}'),
             ),
           ),
-          SizedBox(
-            height: 30.0,
-          ),
           Text(
-            'Screen Title',
+            '${model.title}',
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
@@ -54,11 +85,14 @@ class OnBoardingScreen extends StatelessWidget {
             height: 15.0,
           ),
           Text(
-            'Screen Body',
+            '${model.body}',
             style: TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.bold,
             ),
+          ),
+          SizedBox(
+            height: 30.0,
           ),
         ],
       );

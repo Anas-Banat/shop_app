@@ -19,8 +19,8 @@ void main() async {
   DioHelper.init();
   await CacheHelper.init(); // To save a small data as a cache
 
-  bool isDark = CacheHelper.getData(key: 'isDark');
-  runApp(MyApp(isDark));
+  //bool? isDark = CacheHelper.getData(key: 'isDark');
+  //runApp(MyApp(isDark!));
 }
 
 class MyApp extends StatelessWidget {
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
             // For Dark Theme
             darkTheme: darkTheme,
             themeMode: ShopCubit.get(context).isDark
-                ? ThemeMode.light
+                ? ThemeMode.dark
                 : ThemeMode.light, // light or dark,
             home: OnBoardingScreen(),
           );
