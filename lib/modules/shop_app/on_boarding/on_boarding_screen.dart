@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class BoardingModel {
   final String image;
@@ -56,8 +57,16 @@ List<BoardingModel> boarding = [
               height: 40.0,),
             Row(
               children: [
-                Text(
-                  'Indicator',
+                SmoothPageIndicator(
+                  controller: boardController, 
+                  count: boarding.length,
+                  effect: ExpandingDotsEffect(
+                    dotColor: Colors.grey,
+                    dotHeight: 10,
+                    expansionFactor: 4,
+                    dotWidth: 10,
+                    spacing: 5,
+                  ),
                 ),
                 Spacer(),
                 FloatingActionButton(onPressed: (){
