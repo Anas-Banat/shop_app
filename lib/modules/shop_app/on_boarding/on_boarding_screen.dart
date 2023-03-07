@@ -14,6 +14,8 @@ class BoardingModel {
 
 class OnBoardingScreen extends StatelessWidget {
 
+var boardController = PageController();
+
 List<BoardingModel> boarding = [
   BoardingModel(
     image: 'assets/images/onBiard1.jpg',
@@ -44,6 +46,8 @@ List<BoardingModel> boarding = [
           children: [
             Expanded(
               child: PageView.builder(
+                physics: BouncingScrollPhysics(),
+                controller: boardController,
                 itemBuilder: (context, index) => buildBoardingItem(boarding[index]),
                 itemCount: boarding.length,
               ),
@@ -56,7 +60,12 @@ List<BoardingModel> boarding = [
                   'Indicator',
                 ),
                 Spacer(),
-                FloatingActionButton(onPressed: (){},
+                FloatingActionButton(onPressed: (){
+                  boardController.nextPage(
+                    duration: Duration(milliseconds: 750), 
+                    curve: Curves.fastLinearToSlowEaseIn,
+                  );
+                },
                 child: Icon(Icons.arrow_forward_ios),)
               ],
             ),
