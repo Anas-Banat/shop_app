@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/modules/shop_app/login/shop_login.dart';
+import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/styles/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class BoardingModel {
@@ -13,8 +16,13 @@ class BoardingModel {
   });
 }
 
-class OnBoardingScreen extends StatelessWidget {
+class OnBoardingScreen extends StatefulWidget {
 
+  @override
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
+}
+
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
 var boardController = PageController();
 
 List<BoardingModel> boarding = [
@@ -35,11 +43,18 @@ List<BoardingModel> boarding = [
   ),
 ];
 
+bool isLast = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('OnBoard'),
+        actions: [
+          TextButton(onPressed: (){
+            navigateAndFinish(context, ShopLoginScreen(),);
+          }, 
+          child: Text('Skip')),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -49,6 +64,18 @@ List<BoardingModel> boarding = [
               child: PageView.builder(
                 physics: BouncingScrollPhysics(),
                 controller: boardController,
+                onPageChanged: (int index) {
+                  if(index == boarding.length-1){
+                    setState(() {
+                      isLast = true;
+                    });
+                  }
+                  else{
+                    setState(() {
+                      isLast = false;
+                    });
+                  }
+                },
                 itemBuilder: (context, index) => buildBoardingItem(boarding[index]),
                 itemCount: boarding.length,
               ),
@@ -62,6 +89,7 @@ List<BoardingModel> boarding = [
                   count: boarding.length,
                   effect: ExpandingDotsEffect(
                     dotColor: Colors.grey,
+                    activeDotColor: defaultColor,
                     dotHeight: 10,
                     expansionFactor: 4,
                     dotWidth: 10,
@@ -70,10 +98,15 @@ List<BoardingModel> boarding = [
                 ),
                 Spacer(),
                 FloatingActionButton(onPressed: (){
-                  boardController.nextPage(
+                  if(isLast){
+                    navigateAndFinish(context, ShopLoginScreen(),);
+                  }
+                  else{
+                    boardController.nextPage(
                     duration: Duration(milliseconds: 750), 
                     curve: Curves.fastLinearToSlowEaseIn,
-                  );
+                    );
+                  }
                 },
                 child: Icon(Icons.arrow_forward_ios),)
               ],
