@@ -6,9 +6,6 @@ import 'package:shop_app/shared/styles/colors.dart';
 ThemeData darkTheme = ThemeData(
   primarySwatch: defaultColor,
   scaffoldBackgroundColor: HexColor('333739'),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: Colors.deepOrange,
-  ),
   appBarTheme: AppBarTheme(
     titleSpacing: 20.0,
 
@@ -47,9 +44,6 @@ ThemeData darkTheme = ThemeData(
 ThemeData lightTheme = ThemeData(
   primarySwatch: defaultColor,
   scaffoldBackgroundColor: Colors.white,
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: Colors.deepOrange,
-  ),
   appBarTheme: AppBarTheme(
     titleSpacing: 20.0,
     //To change the colors of header
