@@ -22,6 +22,9 @@ class ShopLoginScreen extends StatelessWidget {
                 Text('LOGIN', style: Theme.of(context).textTheme.titleLarge.copyWith(
                   color: Colors.black, 
                 ),),
+                SizedBox(
+                  height: 20.0,
+                ),
                 Text('Login now to browse our hot offers', style: Theme.of(context).textTheme.titleMedium.copyWith(
                   color: Colors.grey,
                 ),),
@@ -56,7 +59,7 @@ class ShopLoginScreen extends StatelessWidget {
                   prefix: Icons.lock_outline,
                 ),
                 SizedBox(
-                  height: 15.0,
+                  height: 40,
                 ),
                 defaultButton(
                   text: 'Login',
