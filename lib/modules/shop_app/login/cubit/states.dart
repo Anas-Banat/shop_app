@@ -1,12 +1,12 @@
-abstract class ShopLoginState{}
+abstract class ShopLoginStates{}
 
-class ShopLoginInitialState extends ShopLoginState {}
+class ShopLoginInitialState extends ShopLoginStates {}
 
-class ShopLoginLoadinglState extends ShopLoginState {}
+class ShopLoginLoadinglState extends ShopLoginStates {}
 
-class ShopLoginSuccesslState extends ShopLoginState {}
+class ShopLoginSuccesslState extends ShopLoginStates {}
 
-class ShopLoginErrorlState extends ShopLoginState {
+class ShopLoginErrorlState extends ShopLoginStates {
   final String error;
   ShopLoginErrorlState(this.error);
 }

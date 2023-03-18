@@ -3,7 +3,7 @@ import 'package:shop_app/modules/shop_app/login/cubit/states.dart';
 import 'package:shop_app/shared/network/end_point.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
 
-class ShopLoginCubit extends Cubit<ShopLoginState>{
+class ShopLoginCubit extends Cubit<ShopLoginStates>{
   ShopLoginCubit() : super(ShopLoginInitialState());
 
   static ShopLoginCubit get(context) => BlocProvider.of(context);
@@ -13,7 +13,7 @@ class ShopLoginCubit extends Cubit<ShopLoginState>{
     String password,
   }){
     emit(ShopLoginLoadinglState());
-    
+
     DioHelper.postData(
       url: LOGIN,
       data: {
