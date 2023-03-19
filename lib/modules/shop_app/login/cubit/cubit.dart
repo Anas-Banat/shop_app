@@ -24,6 +24,7 @@ class ShopLoginCubit extends Cubit<ShopLoginStates>{
       print(value.data);
       emit(ShopLoginSuccesslState());
     }).catchError((error){
+      print(error.toString());
       emit(ShopLoginErrorlState(error.toString()));
     });
   }

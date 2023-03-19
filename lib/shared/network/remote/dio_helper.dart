@@ -15,7 +15,15 @@ class DioHelper {
   static Future<Response> getData({
     String url,
     Map<String, dynamic> query,
+    String lang = 'ar',
+    String token,
   }) async {
+    dio.options = BaseOptions(
+      headers: {
+        'lang': lang,
+        'Authorization': token,
+      }
+    );
     return await dio.get(url,
         queryParameters: query,
         options: Options(
@@ -27,8 +35,16 @@ class DioHelper {
   static Future<Response> postData({
     String url,
     Map<String, dynamic> query,
-    Map<String, dynamic> data
+    Map<String, dynamic> data,
+    String lang = 'ar',
+    String token,
   }) async {
+    dio.options = BaseOptions(
+      headers: {
+        'lang': lang,
+        'Authorization': token,
+      }
+    );
     return dio.post(
       url,
       queryParameters: query,
