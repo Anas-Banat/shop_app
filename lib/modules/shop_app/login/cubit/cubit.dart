@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/models/shop_app/login_model.dart';
 import 'package:shop_app/modules/shop_app/login/cubit/states.dart';
 import 'package:shop_app/shared/network/end_point.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
@@ -9,6 +10,8 @@ class ShopLoginCubit extends Cubit<ShopLoginStates>{
 
   static ShopLoginCubit get(context) => BlocProvider.of(context);
   
+  ShopLoginModel loginModel;
+
   void userLogin({
     String email,
     String password,
@@ -23,7 +26,9 @@ class ShopLoginCubit extends Cubit<ShopLoginStates>{
       },
     ).then((value){
       print(value.data);
-      emit(ShopLoginSuccesslState());
+      loginModel = ShopLoginModel.fromJson(value.data);
+
+      emit(ShopLoginSuccesslState(loginModel));
     }).catchError((error){
       print(error.toString());
       emit(ShopLoginErrorlState(error.toString()));
