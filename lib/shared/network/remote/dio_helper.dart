@@ -6,7 +6,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://fakestoreapi.com/products/',
+        baseUrl: 'https://fakestoreapi.com/users/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -18,18 +18,13 @@ class DioHelper {
     String lang = 'ar',
     String token,
   }) async {
-    dio.options = BaseOptions(
-      headers: {
+    dio.options.headers = {
         'lang': lang,
         'Authorization': token,
-      }
-    );
+      };
     return await dio.get(url,
         queryParameters: query,
-        options: Options(
-          sendTimeout: Duration(seconds: 10),
-          receiveTimeout: Duration(seconds: 10),
-        ));
+        );
   }
 
   static Future<Response> postData({
@@ -39,12 +34,10 @@ class DioHelper {
     String lang = 'ar',
     String token,
   }) async {
-    dio.options = BaseOptions(
-      headers: {
+    dio.options.headers = {
         'lang': lang,
         'Authorization': token,
-      }
-    );
+      };
     return dio.post(
       url,
       queryParameters: query,

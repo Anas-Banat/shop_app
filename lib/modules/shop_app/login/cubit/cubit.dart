@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/modules/shop_app/login/cubit/states.dart';
 import 'package:shop_app/shared/network/end_point.dart';
@@ -27,5 +28,15 @@ class ShopLoginCubit extends Cubit<ShopLoginStates>{
       print(error.toString());
       emit(ShopLoginErrorlState(error.toString()));
     });
+  }
+
+  IconData suffix = Icons.visibility_outlined;
+  bool isPasswordShown = false;
+  void changePasswordVisibility(){
+    isPasswordShown = !isPasswordShown;
+
+    suffix = isPasswordShown ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+    
+    emit(ShopChangePasswordVisibilityState());
   }
 }
