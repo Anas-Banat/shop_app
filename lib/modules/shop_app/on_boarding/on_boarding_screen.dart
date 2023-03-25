@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/modules/shop_app/login/shop_login.dart';
 import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/network/local/cache_helper.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -45,6 +46,15 @@ List<BoardingModel> boarding = [
 
 bool isLast = false;
 
+void submit(){
+  CacheHelper.saveData(key: 'onBoarding', value: true,).then((value) {
+    if(value){
+      navigateAndFinish(context, ShopLoginScreen(),);
+      }
+    },
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,9 +62,7 @@ bool isLast = false;
         actions: [
           defaultTextButton(
             text: 'Skip',
-            function:(){
-              navigateAndFinish(context, ShopLoginScreen(),);
-            }, 
+            function:submit,
           ),
         ],
       ),
@@ -101,7 +109,7 @@ bool isLast = false;
                 Spacer(),
                 FloatingActionButton(onPressed: (){
                   if(isLast){
-                    navigateAndFinish(context, ShopLoginScreen(),);
+                    submit();
                   }
                   else{
                     boardController.nextPage(

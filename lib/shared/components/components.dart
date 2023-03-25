@@ -1,5 +1,6 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/cubit/states.dart';
 
@@ -32,6 +33,9 @@ Widget defaultButton({
       ),
     );
 
+
+
+
 Widget defaultTextButton({
   Function function,
   String text,
@@ -41,6 +45,9 @@ Widget defaultTextButton({
                     text.toUpperCase(),
                   ),
                 );
+
+
+
 
 Widget defaultFormField({
    TextEditingController controller,
@@ -90,6 +97,9 @@ Widget defaultFormField({
       ),
     );
 
+
+
+
 Widget myDivider() => Padding(
       padding: const EdgeInsetsDirectional.only(
         start: 20.0,
@@ -101,6 +111,8 @@ Widget myDivider() => Padding(
       ),
     );
 
+
+
 void navigateTo(context, widget) => Navigator.push(
   context,
   MaterialPageRoute(
@@ -108,6 +120,40 @@ void navigateTo(context, widget) => Navigator.push(
   ),
 );
 
+
+
+
 void navigateAndFinish(context, Widget) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
   builder: (context) => Widget,),
   (Route<dynamic> route) => false);
+
+  void showToast({
+    String text,
+    ToastStates state
+  }) => Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 5,
+      backgroundColor: chooseToastColor(state),
+      textColor: Colors.white,
+      fontSize: 16.0,
+  );
+
+enum ToastStates {SUCCESS, ERROR, WARNING}
+
+Color chooseToastColor(ToastStates state){
+  Color color;
+  switch(state){
+    case ToastStates.SUCCESS:
+      color = Colors.green;
+      break;
+    case ToastStates.ERROR:
+      color = Colors.red;
+      break;
+    case ToastStates.WARNING:
+      color = Colors.yellow;
+      break;
+  }
+  return color;
+}

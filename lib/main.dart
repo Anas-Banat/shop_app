@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shop_app/modules/shop_app/login/shop_login.dart';
 import 'package:shop_app/modules/shop_app/on_boarding/on_boarding_screen.dart';
 import 'package:shop_app/shared/bloc_observer.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
@@ -20,13 +21,19 @@ void main() async {
   await CacheHelper.init(); // To save a small data as a cache
 
   bool isDark = CacheHelper.getData(key: 'isDark');
-  runApp(MyApp(isDark));
+  bool onBoarding = CacheHelper.getData(key: 'onBoarding');
+  
+  runApp(MyApp(
+    isDark: isDark,
+    onBoarding: onBoarding,
+  ));
 }
 
 class MyApp extends StatelessWidget {
   final bool isDark;
+  final bool onBoarding;
 
-  MyApp(this.isDark);
+  MyApp({this.isDark, this.onBoarding});
 
   // This widget is the root of your application.
   @override
@@ -54,7 +61,7 @@ class MyApp extends StatelessWidget {
             themeMode: ShopCubit.get(context).isDark
                 ? ThemeMode.light
                 : ThemeMode.light, // light or dark,
-            home: OnBoardingScreen(),
+            home: onBoarding ? ShopLoginScreen() : OnBoardingScreen(),
           );
         },
       ),
