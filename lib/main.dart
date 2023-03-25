@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shop_app/layout/shop_app/shop_layout.dart';
+import 'package:shop_app/modules/login/login_Screen.dart';
 import 'package:shop_app/modules/shop_app/login/shop_login.dart';
 import 'package:shop_app/modules/shop_app/on_boarding/on_boarding_screen.dart';
 import 'package:shop_app/shared/bloc_observer.dart';
@@ -13,27 +15,43 @@ import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/cubit/states.dart';
 
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // To do the below methods and then do await method
+  WidgetsFlutterBinding.ensureInitialized(); // To do the below methods and then do await method
 
   Bloc.observer = MyBlocObserver(); // To folow up the app
   DioHelper.init();
   await CacheHelper.init(); // To save a small data as a cache
 
   bool isDark = CacheHelper.getData(key: 'isDark');
-  bool onBoarding = CacheHelper.getData(key: 'onBoarding');
   
+  Widget widget;
+
+  bool onBoarding = CacheHelper.getData(key: 'onBoarding');
+  String token = CacheHelper.getData(key: 'token');
+
+  if(onBoarding != null){
+    if(token != null){
+      widget = ShopLayout();
+    } else {
+      widget = ShopLoginScreen();
+    }
+  } else {
+    widget = OnBoardingScreen();
+  }
+
   runApp(MyApp(
     isDark: isDark,
-    onBoarding: onBoarding,
+    startWidget: widget,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final bool isDark;
-  final bool onBoarding;
+  final Widget startWidget;
 
-  MyApp({this.isDark, this.onBoarding});
+  MyApp({
+    this.isDark,
+    this.startWidget
+    });
 
   // This widget is the root of your application.
   @override
@@ -61,7 +79,7 @@ class MyApp extends StatelessWidget {
             themeMode: ShopCubit.get(context).isDark
                 ? ThemeMode.light
                 : ThemeMode.light, // light or dark,
-            home: onBoarding ? ShopLoginScreen() : OnBoardingScreen(),
+            home: startWidget
           );
         },
       ),
