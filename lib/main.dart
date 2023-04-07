@@ -1,17 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:shop_app/layout/shop_app/cubit/cubit.dart';
 import 'package:shop_app/layout/shop_app/shop_layout.dart';
-import 'package:shop_app/modules/login/login_Screen.dart';
 import 'package:shop_app/modules/shop_app/login/shop_login.dart';
 import 'package:shop_app/modules/shop_app/on_boarding/on_boarding_screen.dart';
 import 'package:shop_app/shared/bloc_observer.dart';
+import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
 import 'package:shop_app/shared/styles/themes.dart';
-import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/cubit/states.dart';
 
 void main() async {
@@ -59,13 +57,17 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => ShopCubit()
+          create: (context) => ShopCubitMode()
             ..changeAppMode(
               formShared: isDark,
             ),
         ),
+        BlocProvider(
+          create: (BuildContext context) => ShopCubit(),
+            
+        ),
       ],
-      child: BlocConsumer<ShopCubit, ShopStates>(
+      child: BlocConsumer<ShopCubitMode, ShopStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return MaterialApp(
@@ -76,7 +78,7 @@ class MyApp extends StatelessWidget {
 
             // For Dark Theme
             darkTheme: darkTheme,
-            themeMode: ShopCubit.get(context).isDark
+            themeMode: ShopCubitMode.get(context).isDark
                 ? ThemeMode.light
                 : ThemeMode.light, // light or dark,
             home: startWidget

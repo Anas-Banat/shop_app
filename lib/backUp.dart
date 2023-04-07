@@ -34,13 +34,13 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => ShopCubit()
+          create: (context) => ShopCubitMode()
             ..changeAppMode(
               formShared: isDark,
             ),
         ),
       ],
-      child: BlocConsumer<ShopCubit, ShopStates>(
+      child: BlocConsumer<ShopCubitMode, ShopStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return MaterialApp(
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
 
             // For Dark Theme
             darkTheme: darkTheme,
-            themeMode: ShopCubit.get(context).isDark
+            themeMode: ShopCubitMode.get(context).isDark
                 ? ThemeMode.dark
                 : ThemeMode.light, // light or dark,
             home: OnBoardingScreen(),
