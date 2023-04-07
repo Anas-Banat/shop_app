@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/layout/shop_app/cubit/cubit.dart';
 import 'package:shop_app/layout/shop_app/cubit/states.dart';
+import 'package:shop_app/modules/shop_app/search/search_screen.dart';
+import 'package:shop_app/shared/components/components.dart';
 
 class ShopLayout extends StatelessWidget {
   get items => null;
@@ -18,6 +20,14 @@ class ShopLayout extends StatelessWidget {
         return Scaffold(
         appBar: AppBar(
           title: Text('Salla'),
+          actions: [
+            IconButton(
+              onPressed: (){
+                navigateTo(context, SearchScreen(),);
+              },
+              icon: Icon(Icons.search),
+              ),
+          ],
         ),
         body: cubit.bottomScreens[cubit.currentIndex],
         bottomNavigationBar: BottomNavigationBar(
