@@ -32,7 +32,11 @@ class ShopCubit extends Cubit<ShopStates>{
   void getHomeData(){
     emit(ShopLoadingHomeDataState());
 
-    DioHelper.getData(url: HOME, query: null).then((value){
+    DioHelper.getData(
+        url: HOME, 
+        token: token,
+        query: null
+      ).then((value){
       homeModel = HomeModel.fromJson(value.data);
       print(homeModel.toString());
 
