@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
             ),
         ),
         BlocProvider(
-          create: (BuildContext context) => ShopCubit(),
+          create: (BuildContext context) => ShopCubit()..getHomeData(),
             
         ),
       ],
