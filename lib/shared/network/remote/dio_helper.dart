@@ -20,11 +20,12 @@ class DioHelper {
   }) async {
     dio.options.headers = {
         'lang': lang,
-        'Authorization': token,
+        'Authorization': token??'',
       };
-    return await dio.get(url,
-        queryParameters: query,
-        );
+    return await dio.get(
+      url,
+      queryParameters: query,
+    );
   }
 
   static Future<Response> postData({
@@ -36,7 +37,7 @@ class DioHelper {
   }) async {
     dio.options.headers = {
         'lang': lang,
-        'Authorization': token,
+        'Authorization': token??'',
       };
     return dio.post(
       url,

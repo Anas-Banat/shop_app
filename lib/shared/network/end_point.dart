@@ -1,2 +1,2 @@
 const LOGIN = 'login';
-const Home = 'Home';
+const HOME = 'Home';
