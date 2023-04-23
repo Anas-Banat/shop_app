@@ -100,6 +100,7 @@ class ProductsScreen extends StatelessWidget{
             ),
           ],
         ),
+
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -114,6 +115,7 @@ class ProductsScreen extends StatelessWidget{
                   height: 1.4,
                 ),
               ),
+
               Row(
                 children: [
                   Text(
@@ -123,9 +125,11 @@ class ProductsScreen extends StatelessWidget{
                       color: defaultColor,
                     ),
                   ),
+
                   SizedBox(
                     width: 5.0,
                   ),
+
                   if(model.discount != 0)
                     Text(
                     '${model.oldPrice.round()}',
@@ -135,7 +139,9 @@ class ProductsScreen extends StatelessWidget{
                       decoration: TextDecoration.lineThrough,
                     ),
                   ),
+
                   Spacer(),
+                  
                   IconButton(
                     padding: EdgeInsets.zero,
                     onPressed: (){}, 
