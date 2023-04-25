@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/layout/shop_app/cubit/cubit.dart';
 import 'package:shop_app/layout/shop_app/cubit/states.dart';
+import 'package:shop_app/models/shop_app/categories_model.dart';
 import 'package:shop_app/models/shop_app/home_model.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
@@ -15,8 +16,8 @@ class ProductsScreen extends StatelessWidget{
     return BlocConsumer<ShopCubit, ShopStates>(
       builder: (context, state){
         return ConditionalBuilder(
-          condition: ShopCubit.get(context).homeModel != null, 
-          builder: (context) => producsBuilder(ShopCubit.get(context).homeModel),
+          condition: ShopCubit.get(context).homeModel != null && ShopCubit.get(context).categoriesModel!= null, 
+          builder: (context) => producsBuilder(ShopCubit.get(context).homeModel, ShopCubit.get(context).categoriesModel),
           fallback: (context) => Center(
             child: CircularProgressIndicator(),
           ),
@@ -27,7 +28,7 @@ class ProductsScreen extends StatelessWidget{
   }
 
 
-  Widget producsBuilder(HomeModel model) => SingleChildScrollView(
+  Widget producsBuilder(HomeModel model, CategoriesModel categoriesModel) => SingleChildScrollView(
     physics: BouncingScrollPhysics(),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,9 +81,9 @@ class ProductsScreen extends StatelessWidget{
                 child: ListView.separated(
                   physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => buildCategoryItem(), 
+                  itemBuilder: (context, index) => buildCategoryItem(categoriesModel.data.data[index]), 
                   separatorBuilder: (context, index) => SizedBox(width: 10.0,), 
-                  itemCount: 10,
+                  itemCount: categoriesModel.data.data.length,
                 ),
               ),
 
@@ -123,11 +124,11 @@ class ProductsScreen extends StatelessWidget{
     ),
   );
 
-  Widget buildCategoryItem() => Stack(
+  Widget buildCategoryItem(DataModel model) => Stack(
           alignment: AlignmentDirectional.bottomCenter,
           children: [
             Image(
-              image: NetworkImage('https://th.bing.com/th/id/OIP.Oyj2NutYcS0fRoqD0Niy9QHaE8?pid=ImgDet&rs=1'),
+              image: NetworkImage(model.image),
               height: 100.0,
               width: 100.0,
               fit: BoxFit.cover,
@@ -137,7 +138,7 @@ class ProductsScreen extends StatelessWidget{
               color: Colors.black.withOpacity(0.6),
               width: 100.0,
               child: Text(
-                "Electronics",
+                model.name,
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
