@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,7 @@ class ProductsScreen extends StatelessWidget{
   Widget producsBuilder(HomeModel model) => SingleChildScrollView(
     physics: BouncingScrollPhysics(),
     child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CarouselSlider(
           items: model.data.banners.map((e) => Image(
@@ -55,6 +58,53 @@ class ProductsScreen extends StatelessWidget{
           height: 10,
         ),
 
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Categories',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+        
+              Container(
+                height: 100.0,
+                child: ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => buildCategoryItem(), 
+                  separatorBuilder: (context, index) => SizedBox(width: 10.0,), 
+                  itemCount: 10,
+                ),
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+        
+              Text(
+                'New Products',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        SizedBox(
+          height: 20,
+        ),
+
         Container(
           color: Colors.grey[300],
           child: GridView.count(
@@ -73,7 +123,32 @@ class ProductsScreen extends StatelessWidget{
     ),
   );
 
+  Widget buildCategoryItem() => Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+            Image(
+              image: NetworkImage('https://th.bing.com/th/id/OIP.Oyj2NutYcS0fRoqD0Niy9QHaE8?pid=ImgDet&rs=1'),
+              height: 100.0,
+              width: 100.0,
+              fit: BoxFit.cover,
+              ),
 
+            Container(
+              color: Colors.black.withOpacity(0.6),
+              width: 100.0,
+              child: Text(
+                "Electronics",
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                   color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        );
+  
   Widget buildGridProduct(ProductModel model) => Container(
     color: Colors.white,
     child: Column(
