@@ -31,7 +31,6 @@ class ShopCubit extends Cubit<ShopStates>{
 
   HomeModel homeModel;
   Map<int, bool> favorites = {};
-
   void getHomeData(){
     emit(ShopLoadingHomeDataState());
 
