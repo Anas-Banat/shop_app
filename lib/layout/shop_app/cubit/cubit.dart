@@ -29,6 +29,8 @@ class ShopCubit extends Cubit<ShopStates>{
   }
 
   HomeModel homeModel;
+  Map<int, bool> favorites = {};
+
   void getHomeData(){
     emit(ShopLoadingHomeDataState());
 
@@ -42,12 +44,20 @@ class ShopCubit extends Cubit<ShopStates>{
       print(homeModel.status);
       print(homeModel.data.banners[0].image);
 
+      // Map to add favorate items
+      homeModel.data.products.forEach((element) {
+        favorites.addAll({
+          element.id: element.inFavorites,
+        });
+      });
+
       emit(ShopSuccessHomeDataState());
     }).catchError((error){
        print(error.toString());
        emit(ShopErrorHomeDataState());
     });
   }
+
 
   CategoriesModel categoriesModel;
   void getCategories(){
@@ -64,4 +74,18 @@ class ShopCubit extends Cubit<ShopStates>{
     });
   }
 
+
+  void changeFavorites(int productId){
+    DioHelper.postData(
+      url: FAVORITES,
+      data: {
+        'productId': productId,
+      },
+      token: token
+    ).then((value) {
+      emit(ShopSuccessChangeFavoritesState());
+    }).catchError((error){
+      emit(ShopErrorChangeFavoritesState());
+    });
+  }
 }

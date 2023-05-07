@@ -17,7 +17,7 @@ class ProductsScreen extends StatelessWidget{
       builder: (context, state){
         return ConditionalBuilder(
           condition: ShopCubit.get(context).homeModel != null && ShopCubit.get(context).categoriesModel!= null, 
-          builder: (context) => producsBuilder(ShopCubit.get(context).homeModel, ShopCubit.get(context).categoriesModel),
+          builder: (context) => producsBuilder(ShopCubit.get(context).homeModel, ShopCubit.get(context).categoriesModel,context),
           fallback: (context) => Center(
             child: CircularProgressIndicator(),
           ),
@@ -28,7 +28,7 @@ class ProductsScreen extends StatelessWidget{
   }
 
 
-  Widget producsBuilder(HomeModel model, CategoriesModel categoriesModel) => SingleChildScrollView(
+  Widget producsBuilder(HomeModel model, CategoriesModel categoriesModel, context) => SingleChildScrollView(
     physics: BouncingScrollPhysics(),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +116,7 @@ class ProductsScreen extends StatelessWidget{
             crossAxisSpacing: 1.0,
             // its like padding 
             childAspectRatio: 1 / 1.58,
-            children: List.generate(model.data.products.length, (index) => buildGridProduct(model.data.products[index]),
+            children: List.generate(model.data.products.length, (index) => buildGridProduct(model.data.products[index], context),
             ),
           ),
         ),
@@ -150,7 +150,7 @@ class ProductsScreen extends StatelessWidget{
           ],
         );
   
-  Widget buildGridProduct(ProductModel model) => Container(
+  Widget buildGridProduct(ProductModel model, context) => Container(
     color: Colors.white,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,7 +222,7 @@ class ProductsScreen extends StatelessWidget{
                     onPressed: (){}, 
                     icon: CircleAvatar(
                       radius: 15.0,
-                      backgroundColor: Colors.grey,
+                      backgroundColor: ShopCubit.get(context).favorites[model.id] ? defaultColor : Colors.grey,
                       child: Icon(
                         Icons.favorite,
                         size: 14.0,
