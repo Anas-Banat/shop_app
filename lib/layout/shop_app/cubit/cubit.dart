@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/layout/shop_app/cubit/states.dart';
 import 'package:shop_app/models/shop_app/categories_model.dart';
+import 'package:shop_app/models/shop_app/change_favorites_model.dart';
 import 'package:shop_app/models/shop_app/home_model.dart';
 import 'package:shop_app/modules/shop_app/categories/categories_screen.dart';
 import 'package:shop_app/modules/shop_app/favorites/favorits_screen.dart';
@@ -75,6 +76,7 @@ class ShopCubit extends Cubit<ShopStates>{
   }
 
 
+  ChangeFavoritesModel changeFavoritesModel;
   void changeFavorites(int productId){
     DioHelper.postData(
       url: FAVORITES,
@@ -83,6 +85,8 @@ class ShopCubit extends Cubit<ShopStates>{
       },
       token: token
     ).then((value) {
+      changeFavoritesModel = ChangeFavoritesModel.fromJson(value.data);
+      
       emit(ShopSuccessChangeFavoritesState());
     }).catchError((error){
       emit(ShopErrorChangeFavoritesState());
