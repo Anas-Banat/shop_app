@@ -78,6 +78,8 @@ class ShopCubit extends Cubit<ShopStates>{
 
   ChangeFavoritesModel changeFavoritesModel;
   void changeFavorites(int productId){
+    //To change the product value to display the hart icon or hide it
+    favorites[productId] = !favorites[productId];
     DioHelper.postData(
       url: FAVORITES,
       data: {
@@ -86,7 +88,7 @@ class ShopCubit extends Cubit<ShopStates>{
       token: token
     ).then((value) {
       changeFavoritesModel = ChangeFavoritesModel.fromJson(value.data);
-      
+
       emit(ShopSuccessChangeFavoritesState());
     }).catchError((error){
       emit(ShopErrorChangeFavoritesState());
