@@ -8,10 +8,10 @@ class FavoritsScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
-      builder: (context,state){}, 
-      listener: (context,state){
+      listener: (context,state){}, 
+      builder : (context,state){
         return ListView.separated(
-          itemBuilder: (context, index) => buildFavItem(),
+          itemBuilder: (context, index) => buildFavItem(ShopCubit.get(context).favoritesModel.data.),
           separatorBuilder: (context, index) => myDivider(),
           itemCount: 10,
         );

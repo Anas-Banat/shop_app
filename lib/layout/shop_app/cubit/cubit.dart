@@ -115,6 +115,7 @@ class ShopCubit extends Cubit<ShopStates>{
         token: token,
       ).then((value){
       favoritesModel = FavoritesModel.fromJson(value.data);
+      printFullText(value.data.toString());
       
       emit(ShopSuccessGetFavoritesState());
     }).catchError((error){
