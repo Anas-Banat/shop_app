@@ -10,6 +10,9 @@ class FavoritesModel
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
+
+  get product => null;
+  
 }
 
 class Data {

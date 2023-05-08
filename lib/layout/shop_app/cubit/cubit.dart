@@ -96,6 +96,8 @@ class ShopCubit extends Cubit<ShopStates>{
       // To correct the status if we get a wrong data from API
       if(!changeFavoritesModel.status){
         favorites[productId] = !favorites[productId];
+      } else {
+        getFavorites();
       }
 
       emit(ShopSuccessChangeFavoritesState(changeFavoritesModel));
@@ -110,6 +112,8 @@ class ShopCubit extends Cubit<ShopStates>{
   FavoritesModel favoritesModel;
 
   void getFavorites(){
+
+    emit(ShopLoadGetFavoritesState());
     DioHelper.getData(
         url: FAVORITES, 
         token: token,
