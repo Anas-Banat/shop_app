@@ -8,6 +8,7 @@ import 'package:shop_app/layout/shop_app/cubit/cubit.dart';
 import 'package:shop_app/layout/shop_app/cubit/states.dart';
 import 'package:shop_app/models/shop_app/categories_model.dart';
 import 'package:shop_app/models/shop_app/home_model.dart';
+import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
 class ProductsScreen extends StatelessWidget{
@@ -23,7 +24,15 @@ class ProductsScreen extends StatelessWidget{
           ),
         );
       }, 
-      listener: (context, state){},
+      listener: (context, state){
+        if(state is ShopSuccessChangeFavoritesState){
+          if(!state.model.status){
+            showToast(
+              text: state.model.message, state: ToastStates.ERROR,
+            );
+          }
+        }
+      },
     );
   }
 

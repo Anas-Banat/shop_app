@@ -31,6 +31,7 @@ class ShopCubit extends Cubit<ShopStates>{
 
   HomeModel homeModel;
   Map<int, bool> favorites = {};
+
   void getHomeData(){
     emit(ShopLoadingHomeDataState());
 
@@ -60,6 +61,7 @@ class ShopCubit extends Cubit<ShopStates>{
 
 
   CategoriesModel categoriesModel;
+
   void getCategories(){
     DioHelper.getData(
         url: GET_CATEGOTIES, 
@@ -76,20 +78,29 @@ class ShopCubit extends Cubit<ShopStates>{
 
 
   ChangeFavoritesModel changeFavoritesModel;
+
   void changeFavorites(int productId){
     //To change the product value to display the hart icon or hide it
     favorites[productId] = !favorites[productId];
+    emit(ShopChangeFavoritesState());
+
     DioHelper.postData(
       url: FAVORITES,
       data: {
         'productId': productId,
       },
-      token: token
     ).then((value) {
       changeFavoritesModel = ChangeFavoritesModel.fromJson(value.data);
+      // To correct the status if we get a wrong data from API
+      if(!changeFavoritesModel.status){
+        favorites[productId] = !favorites[productId];
+      }
 
-      emit(ShopSuccessChangeFavoritesState());
+      emit(ShopSuccessChangeFavoritesState(changeFavoritesModel));
     }).catchError((error){
+      //To correct the status if any error
+      favorites[productId] = !favorites[productId];
+
       emit(ShopErrorChangeFavoritesState());
     });
   }
