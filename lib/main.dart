@@ -66,7 +66,8 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => ShopCubit()
           ..getHomeData()
           ..getCategories()
-          ..getFavorites(),
+          ..getFavorites()
+          ..getUserData(),
             
         ),
       ],
