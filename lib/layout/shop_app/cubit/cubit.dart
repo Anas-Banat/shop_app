@@ -43,9 +43,9 @@ class ShopCubit extends Cubit<ShopStates>{
         query: null
       ).then((value){
       homeModel = HomeModel.fromJson(value.data);
-      print(homeModel.data.banners.toString());
-      print(homeModel.status);
-      print(homeModel.data.banners[0].image);
+      //print(homeModel.data.banners.toString());
+      //print(homeModel.status);
+      //print(homeModel.data.banners[0].image);
 
       // Map to add favorate items
       homeModel.data.products.forEach((element) {
@@ -113,14 +113,13 @@ class ShopCubit extends Cubit<ShopStates>{
   FavoritesModel favoritesModel;
 
   void getFavorites(){
-
     emit(ShopLoadGetFavoritesState());
     DioHelper.getData(
         url: FAVORITES, 
         token: token,
       ).then((value){
       favoritesModel = FavoritesModel.fromJson(value.data);
-      printFullText(value.data.toString());
+      //printFullText(value.data.toString());
       
       emit(ShopSuccessGetFavoritesState());
     }).catchError((error){
@@ -132,16 +131,15 @@ class ShopCubit extends Cubit<ShopStates>{
   ShopLoginModel userModel;
 
   void getUserData(){
-
     emit(ShopLoadUserDataState());
     DioHelper.getData(
         url: PROFILE, 
         token: token,
       ).then((value){
       userModel = ShopLoginModel.fromJson(value.data);
-      printFullText(userModel.data.name);
+      //printFullText(userModel.data.name);
       
-      emit(ShopSuccessUserDataState());
+      emit(ShopSuccessUserDataState(userModel));
     }).catchError((error){
        print(error.toString());
        emit(ShopErrorUserDataState());
