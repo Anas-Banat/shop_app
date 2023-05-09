@@ -9,3 +9,5 @@ const GET_CATEGOTIES = 'Categories';
 const FAVORITES = 'favorites';
 
 const PROFILE = 'profile';
+
+const UPDATE_PROFILE = 'update_profile';
