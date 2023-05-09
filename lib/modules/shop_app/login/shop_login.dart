@@ -12,18 +12,16 @@ import 'package:shop_app/shared/network/local/cache_helper.dart';
 
 class ShopLoginScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
+  var emailController = TextEditingController();
+  var passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
-    var emailController = TextEditingController();
-    var passController = TextEditingController();
-
     return BlocProvider(
       create: (BuildContext context) => ShopLoginCubit(),
       child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
         listener: (context, state) {
-          if(state is ShopLoginSuccesslState){
+          if(state is ShopLoginSuccessState){
             if(state.loginModel.status){
               print(state.loginModel.data.token);
               print(state.loginModel.message);
@@ -112,7 +110,7 @@ class ShopLoginScreen extends StatelessWidget {
                           height: 40,
                         ),
                         ConditionalBuilder(
-                          condition: state is! ShopLoginLoadinglState,
+                          condition: state is! ShopLoginLoadingState,
                           builder: (context) => defaultButton(
                           text: 'Login',
                           isUpperCase: true,
