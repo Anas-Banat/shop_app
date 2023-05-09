@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/layout/shop_app/cubit/cubit.dart';
 import 'package:shop_app/layout/shop_app/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/components/constants.dart';
 
 class SettingsScreen extends StatelessWidget{
 
@@ -15,14 +16,14 @@ class SettingsScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates> (
-      listener: (context, state) {
-        if(state is ShopSuccessUserDataState){
-          nameController.text = state.loginModel.data.name;
-          emailController.text = state.loginModel.data.email;
-          phoneController.text = state.loginModel.data.phone;
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
+        var model = ShopCubit.get(context).userModel;
+
+        nameController.text = model.data.name;
+        emailController.text = model.data.email;
+        phoneController.text = model.data.phone;
+
         return ConditionalBuilder(
           condition: ShopCubit.get(context).userModel != null, 
           builder: (context) => Padding(
@@ -74,6 +75,17 @@ class SettingsScreen extends StatelessWidget{
                   },
                   lable: 'Phone',
                   prefix: Icons.phone,
+                ),
+                
+                SizedBox(
+                  height: 20.0,
+                ),
+                
+                defaultButton(
+                  function: (){
+                    signnOut(context);
+                  },
+                  text: 'Logout',
                 ),
               ],
             ),

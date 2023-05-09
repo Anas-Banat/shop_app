@@ -34,6 +34,7 @@ void main() async {
     }
   } else {
     widget = OnBoardingScreen();
+    
   }
 
   runApp(MyApp(
