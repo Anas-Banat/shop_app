@@ -6,7 +6,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://fakestoreapi.com/users/',
+        baseUrl: 'https://fakestoreapi.com/',
         receiveDataWhenStatusError: true,
         // We hide the header coz we added it below in the get & post
         // headers: {
@@ -46,6 +46,25 @@ class DioHelper {
         'Authorization': token??'',
       };
     return dio.post(
+      url,
+      queryParameters: query,
+      data: data,
+    );
+  }
+
+  static Future<Response> putData({
+    String url,
+    Map<String, dynamic> query,
+    Map<String, dynamic> data,
+    String lang = 'en',
+    String token,
+  }) async {
+    dio.options.headers = {
+        'Content-Type': 'application/json',
+        'lang': lang,
+        'Authorization': token??'',
+      };
+    return dio.put(
       url,
       queryParameters: query,
       data: data,
