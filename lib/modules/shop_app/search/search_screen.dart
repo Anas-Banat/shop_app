@@ -55,7 +55,7 @@ class SearchScreen extends StatelessWidget{
                     if(state is SearchSuccessState)
                     Expanded(
                       child: ListView.separated(
-                        itemBuilder: (context, index) => buildListProduct(SearchCubit.get(context).model.data.data[index], context),
+                        itemBuilder: (context, index) => buildListProduct(SearchCubit.get(context).model.data.data[index], context, isOldPrice: false),
                         separatorBuilder: (context, index) => myDivider(),
                         itemCount: SearchCubit.get(context).model.data.data.length,
                       ),
