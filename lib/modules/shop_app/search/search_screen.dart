@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/layout/shop_app/cubit/cubit.dart';
 import 'package:shop_app/modules/shop_app/search/cubit/cubit.dart';
 import 'package:shop_app/modules/shop_app/search/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
@@ -20,21 +21,47 @@ class SearchScreen extends StatelessWidget{
             appBar: AppBar(),
             body: Form(
               key: formKey,
-              child: Column(
-                children: [
-                  defaultFormField(
-                    controller: searchController,
-                    type: TextInputType.text,
-                    validate: (String value){
-                      if(value.isEmpty){
-                        return 'Please enter a search query';
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    defaultFormField(
+                      controller: searchController,
+                      type: TextInputType.text,
+                      validate: (String value){
+                        if(value.isEmpty){
+                          return 'Please enter a search query';
+                        }
+                        return null;
+                      },
+                      lable: 'Search',
+                      prefix: Icons.search,
+                      onSubmit: (String text){
+                        SearchCubit.get(context).search(text);
                       }
-                      return null;
-                    },
-                    lable: 'Search',
-                    prefix: Icons.search,
-                  ),
-                ],
+                    ),
+
+                    SizedBox(
+                      height: 10.0,
+                    ),
+
+                    if(state is SearchLoadState)
+                    LinearProgressIndicator(),
+
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    
+                    if(state is SearchSuccessState)
+                    Expanded(
+                      child: ListView.separated(
+                        itemBuilder: (context, index) => buildListProduct(SearchCubit.get(context).model.data.data[index], context),
+                        separatorBuilder: (context, index) => myDivider(),
+                        itemCount: SearchCubit.get(context).model.data.data.length,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -42,5 +69,4 @@ class SearchScreen extends StatelessWidget{
       ),
     );
   }
-
 }

@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/shop_app/search_model.dart';
 import 'package:shop_app/modules/shop_app/search/cubit/states.dart';
+import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/network/end_point.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
 
@@ -13,8 +14,9 @@ class SearchCubit extends Cubit<SearchStates> {
   void search(String text){
     emit(SearchLoadState());
 
-    DioHelper.putData(
+    DioHelper.postData(
       url: SEARCH,
+      token: token,
       data: {
         "text": text,
       },
