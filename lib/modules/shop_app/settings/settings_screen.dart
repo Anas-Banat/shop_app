@@ -33,6 +33,13 @@ class SettingsScreen extends StatelessWidget{
               key: formKey,
               child: Column(
                 children: [
+                  if(state is ShopLoadUpdateUserState)
+                  LinearProgressIndicator(),
+
+                  SizedBox(
+                    height: 20.0,
+                  ),
+
                   defaultFormField(
                     controller: nameController,
                     type: TextInputType.name,
